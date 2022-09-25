@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElegantSeries.SerialPort", "ElegantSeries.SerialPort\ElegantSeries.SerialPort.csproj", "{750C5D53-A71F-4581-ADBE-0FF67DD02065}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{750C5D53-A71F-4581-ADBE-0FF67DD02065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{750C5D53-A71F-4581-ADBE-0FF67DD02065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{750C5D53-A71F-4581-ADBE-0FF67DD02065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{750C5D53-A71F-4581-ADBE-0FF67DD02065}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {773D7A83-2961-4703-85D8-75C7D14959F5}
+	EndGlobalSection
+EndGlobal
