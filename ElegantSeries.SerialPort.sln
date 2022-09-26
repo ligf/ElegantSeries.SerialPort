@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElegantSeries.SerialPort", "ElegantSeries.SerialPort\ElegantSeries.SerialPort.csproj", "{750C5D53-A71F-4581-ADBE-0FF67DD02065}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElegantSeries.SerialPort", "ElegantSeries.SerialPort\ElegantSeries.SerialPort.csproj", "{750C5D53-A71F-4581-ADBE-0FF67DD02065}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{33D0F106-1855-4D26-863D-0F8863E62722}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{750C5D53-A71F-4581-ADBE-0FF67DD02065}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{750C5D53-A71F-4581-ADBE-0FF67DD02065}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{750C5D53-A71F-4581-ADBE-0FF67DD02065}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33D0F106-1855-4D26-863D-0F8863E62722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33D0F106-1855-4D26-863D-0F8863E62722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33D0F106-1855-4D26-863D-0F8863E62722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33D0F106-1855-4D26-863D-0F8863E62722}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
