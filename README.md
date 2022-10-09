@@ -35,3 +35,17 @@ last[0] = 0xA0;
 last[1] = 0xB0;
 serialPort.Read(bytes, first, last);
 ```
+## Using the Utilities
+- ReuseBuffer Class.\
+Multiplex the same packet. e.g., different methods use the same packet for data parsing.
+```csharp
+ReuseBuffer reuseBuffer = new() { Number = 2 };
+SerialPort serialPort = new SerialPort();
+byte[] bytes = new byte[10];
+serialPort.Read(bytes);
+reuseBuffer.Data = bytes;
+var bytes1 = reuseBuffer.Data;
+var bytes2 = reuseBuffer.Data;
+var bytes3 = reuseBuffer.Data;
+// bytes1 == bytes2 == bytes, bytes3 == null.
+```
