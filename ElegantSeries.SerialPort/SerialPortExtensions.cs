@@ -3,7 +3,7 @@ namespace ElegantSeries;
 
 public static class SerialPortExtensions
 {
-    public static void Read(this SerialPort serialPort, byte[] readBuffer, int readTimeout = 5000)
+    public static void Read(this SerialPort serialPort, byte[] readBuffer, int readTimeout = 5000, CancellationToken token = default)
     {
         if (readBuffer == null)
             throw new ArgumentNullException(nameof(readBuffer));
@@ -12,6 +12,9 @@ public static class SerialPortExtensions
         long startTicks = Environment.TickCount64;
         do
         {
+            if (token.IsCancellationRequested)
+                throw new OperationCanceledException();
+
             if (serialPort.BytesToRead >= readBufferLength)
             {
                 int justRead = serialPort.Read(readBuffer, 0, readBufferLength);
@@ -24,7 +27,7 @@ public static class SerialPortExtensions
         } while (readTimeout == SerialPort.InfiniteTimeout || readTimeout - (Environment.TickCount64 - startTicks) > 0);
         throw new TimeoutException();
     }
-    public static void Read(this SerialPort serialPort, byte[] readBuffer, byte[] first, int readTimeout = 5000)
+    public static void Read(this SerialPort serialPort, byte[] readBuffer, byte[] first, int readTimeout = 5000, CancellationToken token = default)
     {
         if (readBuffer == null)
             throw new ArgumentNullException(nameof(readBuffer));
@@ -41,6 +44,9 @@ public static class SerialPortExtensions
         List<byte> bytes = new();
         do
         {
+            if (token.IsCancellationRequested)
+                throw new OperationCanceledException();
+
             if (serialPort.BytesToRead >= readBufferLength)
             {
                 int justRead;
@@ -62,7 +68,7 @@ public static class SerialPortExtensions
                     justRead = serialPort.ReadByte();
                     bytes.Add((byte)justRead);
                 }
-                
+
                 for (int i = 0; i < bytes.Count; i++)
                 {
                     readBuffer[i] = bytes.ElementAt(i);
@@ -73,7 +79,7 @@ public static class SerialPortExtensions
         } while (readTimeout == SerialPort.InfiniteTimeout || readTimeout - (Environment.TickCount64 - startTicks) > 0);
         throw new TimeoutException();
     }
-    public static void Read(this SerialPort serialPort, byte[] readBuffer, byte[] first, byte[] last, int readTimeout = 5000)
+    public static void Read(this SerialPort serialPort, byte[] readBuffer, byte[] first, byte[] last, int readTimeout = 5000, CancellationToken token = default)
     {
         if (readBuffer == null)
             throw new ArgumentNullException(nameof(readBuffer));
@@ -93,6 +99,9 @@ public static class SerialPortExtensions
         List<byte> bytes = new();
         do
         {
+            if (token.IsCancellationRequested)
+                throw new OperationCanceledException();
+
             if (serialPort.BytesToRead >= readBufferLength)
             {
                 int justRead;
@@ -138,7 +147,7 @@ public static class SerialPortExtensions
         } while (readTimeout == SerialPort.InfiniteTimeout || readTimeout - (Environment.TickCount64 - startTicks) > 0);
         throw new TimeoutException();
     }
-    public static void WriteAndRead(this SerialPort serialPort, byte[] writeBuffer, byte[] readBuffer, int readTimeout = 5000)
+    public static void WriteAndRead(this SerialPort serialPort, byte[] writeBuffer, byte[] readBuffer, int readTimeout = 5000, CancellationToken token = default)
     {
         if (writeBuffer == null)
             throw new ArgumentNullException(nameof(writeBuffer));
@@ -146,9 +155,9 @@ public static class SerialPortExtensions
             throw new ArgumentNullException(nameof(readBuffer));
 
         serialPort.Write(writeBuffer, 0, writeBuffer.Length);
-        serialPort.Read(readBuffer, readTimeout);
+        serialPort.Read(readBuffer, readTimeout, token);
     }
-    public static void WriteAndRead(this SerialPort serialPort, byte[] writeBuffer, byte[] readBuffer, byte[] first, int readTimeout = 5000)
+    public static void WriteAndRead(this SerialPort serialPort, byte[] writeBuffer, byte[] readBuffer, byte[] first, int readTimeout = 5000, CancellationToken token = default)
     {
         if (writeBuffer == null)
             throw new ArgumentNullException(nameof(writeBuffer));
@@ -160,9 +169,9 @@ public static class SerialPortExtensions
             throw new ArgumentException($"{nameof(first)} length is more than {nameof(readBuffer)} length");
 
         serialPort.Write(writeBuffer, 0, writeBuffer.Length);
-        serialPort.Read(readBuffer, first, readTimeout);
+        serialPort.Read(readBuffer, first, readTimeout, token);
     }
-    public static void WriteAndRead(this SerialPort serialPort, byte[] writeBuffer, byte[] readBuffer, byte[] first, byte[] last, int readTimeout = 5000)
+    public static void WriteAndRead(this SerialPort serialPort, byte[] writeBuffer, byte[] readBuffer, byte[] first, byte[] last, int readTimeout = 5000, CancellationToken token = default)
     {
         if (writeBuffer == null)
             throw new ArgumentNullException(nameof(writeBuffer));
@@ -176,30 +185,30 @@ public static class SerialPortExtensions
             throw new ArgumentException($"{nameof(first)} length add {nameof(last)} length is more than {nameof(readBuffer)} length");
 
         serialPort.Write(writeBuffer, 0, writeBuffer.Length);
-        serialPort.Read(readBuffer, first, last, readTimeout);
+        serialPort.Read(readBuffer, first, last, readTimeout, token);
     }
-    public static async Task ReadAsync(this SerialPort serialPort, byte[] readBuffer, int readTimeout)
+    public static async Task ReadAsync(this SerialPort serialPort, byte[] readBuffer, int readTimeout, CancellationToken token = default)
     {
-        await Task.Run(() => serialPort.Read(readBuffer, readTimeout));
+        await Task.Run(() => serialPort.Read(readBuffer, readTimeout, token));
     }
-    public static async Task ReadAsync(this SerialPort serialPort, byte[] readBuffer, byte[] first, int readTimeout = 5000)
+    public static async Task ReadAsync(this SerialPort serialPort, byte[] readBuffer, byte[] first, int readTimeout = 5000, CancellationToken token = default)
     {
-        await Task.Run(() => serialPort.Read(readBuffer, first, readTimeout));
+        await Task.Run(() => serialPort.Read(readBuffer, first, readTimeout, token));
     }
-    public static async Task ReadAsync(this SerialPort serialPort, byte[] readBuffer, byte[] first, byte[] last, int readTimeout = 5000)
+    public static async Task ReadAsync(this SerialPort serialPort, byte[] readBuffer, byte[] first, byte[] last, int readTimeout = 5000, CancellationToken token = default)
     {
-        await Task.Run(() => serialPort.Read(readBuffer, first, last, readTimeout));
+        await Task.Run(() => serialPort.Read(readBuffer, first, last, readTimeout, token));
     }
-    public static async Task WriteAndReadAsync(this SerialPort serialPort, byte[] writeBuffer, byte[] readBuffer, int readTimeout)
+    public static async Task WriteAndReadAsync(this SerialPort serialPort, byte[] writeBuffer, byte[] readBuffer, int readTimeout, CancellationToken token = default)
     {
-        await Task.Run(() => serialPort.WriteAndRead(writeBuffer, readBuffer, readTimeout));
+        await Task.Run(() => serialPort.WriteAndRead(writeBuffer, readBuffer, readTimeout, token));
     }
-    public static async Task WriteAndReadAsync(this SerialPort serialPort, byte[] writeBuffer, byte[] readBuffer, byte[] first, int readTimeout = 5000)
+    public static async Task WriteAndReadAsync(this SerialPort serialPort, byte[] writeBuffer, byte[] readBuffer, byte[] first, int readTimeout = 5000, CancellationToken token = default)
     {
-        await Task.Run(() => serialPort.WriteAndRead(writeBuffer, readBuffer, first, readTimeout));
+        await Task.Run(() => serialPort.WriteAndRead(writeBuffer, readBuffer, first, readTimeout, token));
     }
-    public static async Task WriteAndReadAsync(this SerialPort serialPort, byte[] writeBuffer, byte[] readBuffer, byte[] first, byte[] last, int readTimeout = 5000)
+    public static async Task WriteAndReadAsync(this SerialPort serialPort, byte[] writeBuffer, byte[] readBuffer, byte[] first, byte[] last, int readTimeout = 5000, CancellationToken token = default)
     {
-        await Task.Run(() => serialPort.WriteAndRead(writeBuffer, readBuffer, first, last, readTimeout));
+        await Task.Run(() => serialPort.WriteAndRead(writeBuffer, readBuffer, first, last, readTimeout, token));
     }
 }

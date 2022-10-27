@@ -35,6 +35,17 @@ last[0] = 0xA0;
 last[1] = 0xB0;
 serialPort.Read(bytes, first, last);
 ```
+- Cancel reading data.
+```csharp
+CancellationTokenSource cts = new CancellationTokenSource();
+CancellationToken token = cts.Token;
+SerialPort serialPort = new SerialPort();
+byte[] bytes = new byte[10];
+serialPort.Read(bytes, token:token);
+
+// Execute on other thread
+cts.Cancel();
+```
 ## Using the Utilities
 - ReuseBuffer Class.\
 Multiplex the same packet. e.g., different methods use the same packet for data parsing.
