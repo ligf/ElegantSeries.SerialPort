@@ -3,10 +3,10 @@
     public class ReuseBuffer
     {
         int index = 0;
-        object? _Data;
+        object _Data;
 
         public int Number { get; set; } = 0;
-        public object? Data
+        public object Data
         {
             get
             {
